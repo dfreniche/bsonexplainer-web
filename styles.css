@@ -125,13 +125,13 @@ tr.eoo td { color: var(--via-color-text-secondary); }
   padding: 6px 0;
   text-align: center;
   transform: rotate(45deg);
-  background: #151513;
+  background: #00684A; /* MongoDB Forest Green */
   color: #fff;
   font: 600 13px/1 var(--via-font-family-body, sans-serif);
   text-decoration: none;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
 }
-.github-ribbon:hover { background: #3a3a36; }
+.github-ribbon:hover { background: #023430; } /* MongoDB Evergreen */
 
 .app-footer {
   margin-top: 24px;

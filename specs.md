@@ -101,3 +101,5 @@ Embedded field "menu" (document):
 - Footer links: BSON overview, BSON specification, bug0 JSON to BSON tool, bsondump docs.
 
 - Favicon: MongoDB favicon.ico, self-hosted at the site root (copied from https://www.mongodb.com/assets/images/global/favicon.ico).
+
+- Brand palette (from MongoDB colors sheet): Spring Green #00ED64, Forest Green #00684A, Evergreen #023430, Slate Blue #001E2B. Highlights and dark title use Spring Green; light title uses Forest Green; ribbon uses Forest Green (hover Evergreen). Page background stays on Via neutral tokens (decided).
