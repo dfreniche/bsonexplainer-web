@@ -89,3 +89,5 @@ Embedded field "menu" (document):
 - Footer links: BSON overview (mongodb.com), BSON specification (bsonspec.org), and "Fork me on GitHub" (github.com/dfreniche/bsonexplainer-web).
 
 - "Fork me on GitHub" is a corner ribbon (top-right, fixed) linking to github.com/dfreniche/bsonexplainer-web; it replaces the footer link.
+
+- JSON and BSON trees stay in sync: expanding or collapsing a node in one panel does the same in the other. Nodes are paired by their path from the root.

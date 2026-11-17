@@ -57,13 +57,14 @@ const jsonLeafText = (node) => {
   }
 };
 
-function renderJson(key, node) {
+// segs = path of field names/indices from the root; used to pair nodes across both trees.
+function renderJson(key, node, segs = []) {
   const label = key === null ? '' : `<span class="key">${esc(key)}</span>`;
   if (node.t === 'doc' || node.t === 'array') {
     const entries = node.t === 'doc' ? node.entries : node.items.map((v, i) => [String(i), v]);
     const kind = node.t === 'array' ? 'array' : 'object';
-    return `<details open><summary>${label} <span class="type">${kind}, ${entries.length} fields</span></summary>` +
-      entries.map(([k, v]) => renderJson(k, v)).join('') + `</details>`;
+    return `<details open data-path="${esc(JSON.stringify(segs))}"><summary>${label} <span class="type">${kind}, ${entries.length} fields</span></summary>` +
+      entries.map(([k, v]) => renderJson(k, v, [...segs, k])).join('') + `</details>`;
   }
   const typeName = TYPE_NAMES[node.t] ?? node.t;
   return `<div class="leaf">${label}${key === null ? '' : ': '}${esc(jsonLeafText(node))} <span class="type">${esc(typeName)}</span></div>`;
@@ -71,7 +72,7 @@ function renderJson(key, node) {
 
 // ---------- BSON tree (right panel) ----------
 
-function renderBsonDoc(doc, bytes, label) {
+function renderBsonDoc(doc, bytes, label, segs = []) {
   const rows = doc.elements.map((el) => {
     const code = `0x${hex2(el.typeCode)} = ${el.typeName}`;
     const [vs, ve] = el.valueRange;
@@ -88,9 +89,9 @@ function renderBsonDoc(doc, bytes, label) {
     <td>0x00 = EOO</td><td>end of ${esc(label)}</td><td><code>\\x00</code></td></tr>`;
   const nested = doc.elements
     .filter((el) => el.children)
-    .map((el) => renderBsonDoc(el.children, bytes, `Embedded field "${el.name}" (${el.typeName.toLowerCase()})`))
+    .map((el) => renderBsonDoc(el.children, bytes, `Embedded field "${el.name}" (${el.typeName.toLowerCase()})`, [...segs, el.name]))
     .join('');
-  return `<details open data-start="${doc.start}" data-end="${doc.end}">
+  return `<details open data-path="${esc(JSON.stringify(segs))}" data-start="${doc.start}" data-end="${doc.end}">
     <summary><span class="key">${esc(label)}</span> <span class="type">${doc.size} bytes</span></summary>
     <table><thead><tr><th>type</th><th>field name</th><th>field value</th></tr></thead>
     <tbody>${rows}${eoo}</tbody></table>${nested}
@@ -125,6 +126,32 @@ bsonPanel.addEventListener('mouseover', (e) => {
 });
 bsonPanel.addEventListener('mouseleave', () => highlight());
 
+// ---------- Keep JSON and BSON trees in sync ----------
+
+// path (JSON string of segments) -> every <details> for that node, in both panels.
+let pairIndex = new Map();
+
+function indexTrees() {
+  pairIndex = new Map();
+  for (const d of document.querySelectorAll('.tree details[data-path]')) {
+    const list = pairIndex.get(d.dataset.path) ?? [];
+    list.push(d);
+    pairIndex.set(d.dataset.path, list);
+  }
+}
+
+// `toggle` does not bubble, so listen in the capture phase on each panel.
+// Setting .open to the value it already has fires no event, so this cannot loop.
+function onToggle(e) {
+  const d = e.target;
+  if (!d.dataset || d.dataset.path === undefined) return;
+  for (const other of pairIndex.get(d.dataset.path) ?? []) {
+    if (other !== d && other.open !== d.open) other.open = d.open;
+  }
+}
+jsonPanel.addEventListener('toggle', onToggle, true);
+bsonPanel.addEventListener('toggle', onToggle, true);
+
 // ---------- Main render ----------
 
 function render() {
@@ -137,6 +164,7 @@ function render() {
     bsonPanel.innerHTML = renderBsonDoc(tree, bytes, tree.isArray ? 'array' : 'document');
     sizeLabel.textContent = `— total size: ${bytes.length} bytes`;
     renderHex(bytes);
+    indexTrees();
   } catch (err) {
     errorBox.textContent = err instanceof SyntaxError ? `Invalid JSON: ${err.message}` : err.message;
     errorBox.hidden = false;
