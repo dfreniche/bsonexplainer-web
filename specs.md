@@ -93,3 +93,5 @@ Embedded field "menu" (document):
 - JSON and BSON trees stay in sync: expanding or collapsing a node in one panel does the same in the other. Nodes are paired by their path from the root.
 
 - Hover highlighting is synced: hovering a BSON row highlights its JSON node and its bytes in the hex dump; hovering a JSON node highlights its BSON row and bytes.
+
+- Highlights and the title use MongoDB Spring Green (Via `green-400`, #00ED64); the title uses `green-600` in light mode for contrast.
