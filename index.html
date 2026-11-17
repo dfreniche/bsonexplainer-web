@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BSON Explainer</title>
+  <meta name="description" content="Shows how JSON is converted into BSON, byte by byte." />
+  <link rel="stylesheet" href="vendor/fonts.css" />
+  <link rel="stylesheet" href="vendor/tokens.css" />
+  <link rel="stylesheet" href="vendor/index.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <!-- FIGLET_TITLE -->
+    <p class="subtitle">Shows how JSON is converted into BSON, byte by byte.</p>
+  </header>
+
+  <main>
+    <section class="input-section">
+      <label for="json-input">JSON input <span class="muted">(MongoDB Extended JSON is supported)</span></label>
+      <textarea id="json-input" spellcheck="false" rows="8"></textarea>
+      <p id="error" class="error" role="alert" hidden></p>
+    </section>
+
+    <div class="toolbar">
+      <button type="button" data-action="expand">Expand all</button>
+      <button type="button" data-action="collapse">Collapse all</button>
+    </div>
+
+    <section class="panels">
+      <div class="panel">
+        <h2>JSON</h2>
+        <div id="json-tree" class="tree" aria-label="JSON tree"></div>
+      </div>
+      <div class="panel">
+        <h2>BSON <span id="total-size" class="muted"></span></h2>
+        <div id="bson-tree" class="tree" aria-label="BSON tree"></div>
+      </div>
+    </section>
+
+    <section class="hex-section">
+      <h2>Hex dump</h2>
+      <p class="muted">Hover a row in the BSON tree to highlight its bytes.</p>
+      <div id="hex-dump" class="hex" aria-label="Hex dump"></div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <nav aria-label="Resources">
+      <a href="https://www.mongodb.com/resources/languages/bson" target="_blank" rel="noopener">What is BSON?</a>
+      <a href="https://bsonspec.org/spec.html" target="_blank" rel="noopener">BSON specification</a>
+      <a href="https://github.com/dfreniche/bsonexplainer-web" target="_blank" rel="noopener">Fork me on GitHub</a>
+    </nav>
+  </footer>
+
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+# Plan
+
+Status: v0.1.0 implemented. Sample renders to 219 bytes (matches the spec example); 10 unit tests pass.
+
+## Decisions
+- Via: the packages `@via-ds/tokens` and `@via-ds/components` are public on npm, so no token is needed. Only the CSS is used (tokens, fonts, components index.css), vendored into `dist/vendor/`. No React.
+- Build: `pnpm build` runs `scripts/build.mjs`, which copies the app to `dist/` for GitHub Pages and renders the ASCII title with figlet at build time (no runtime font fetch).
+- Hover linking: hovering a BSON row highlights its bytes in the hex dump.
+- Open-question defaults (not confirmed by user): Pages deploy via GitHub Actions from `main`.
+
+## Steps
+1. [done] Project setup: `package.json` (pnpm 12.8.1), Via, figlet.
+2. [done] BSON encoder (`src/bson.js`): all types in the spec except Decimal128. Produces bytes plus a tree with byte ranges.
+3. [done] Extended JSON layer (`src/extjson.js`): $oid, $date, $numberInt/Long/Double, $binary, $regularExpression, $timestamp, $minKey, $maxKey.
+4. [done] UI (`index.html`, `styles.css`, `src/app.js`): title, JSON input, JSON and BSON side by side, expand/collapse, hex dump with row hover.
+5. [done] Styling with Via tokens.
+6. [done] Tests with `node:test` (`test/bson.test.mjs`).
+7. [done] GitHub Actions workflow (`.github/workflows/pages.yml`). Not yet run on GitHub.
+
+## Known limitations / TODO
+- `$numberDecimal` (Decimal128) is rejected with an error.
+- JS objects reorder integer-like keys (`{"b":1,"1":2}` is read with "1" first).
+- JSON `1.0` is read as int32 (JS drops the fraction).
+- No automated UI tests; the page was checked with headless Chrome (DOM dump and screenshot).
+
+## Dependency justification
+- `@via-ds/tokens`, `@via-ds/components`: required by specs.
+- `figlet`: chosen by the user for the ASCII title; build-time only.
+- `pnpm` dev tooling: required by the user.
+- Everything else (BSON encoding, Extended JSON, UI, tests) is dependency-free.

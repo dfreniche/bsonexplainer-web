@@ -1,0 +1,17 @@
+{
+  "name": "bsonexplainer-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Single page app showing how JSON is converted into BSON",
+  "type": "module",
+  "packageManager": "pnpm@12.8.1",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@via-ds/components": "0.17.1",
+    "@via-ds/tokens": "0.3.6",
+    "figlet": "1.12.0"
+  }
+}

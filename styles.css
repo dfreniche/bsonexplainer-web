@@ -1,0 +1,109 @@
+/* Colors, fonts and spacing come from Via tokens (see vendor/tokens.css). */
+body {
+  margin: 0;
+  color-scheme: light dark;
+  background: var(--via-color-background-primary);
+  color: var(--via-color-text-primary);
+  font: var(--via-typography-body);
+  font-family: var(--via-font-family-body);
+}
+
+.app-header { padding: 16px 16px 0; }
+.title {
+  margin: 0;
+  overflow-x: auto;
+  font-family: var(--via-font-family-monospace);
+  font-size: 10px;
+  line-height: 1.1;
+  color: var(--via-color-text-primary);
+}
+.subtitle { color: var(--via-color-text-secondary); margin: 8px 0 0; }
+
+main { padding: 16px; display: grid; gap: 16px; }
+
+.input-section { display: grid; gap: 8px; }
+label { font: var(--via-typography-body2); }
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+  font-family: var(--via-font-family-monospace);
+  font-size: 13px;
+  color: inherit;
+  background: var(--via-color-background-secondary);
+  border: 1px solid var(--via-color-border-primary);
+  border-radius: 6px;
+}
+.error {
+  margin: 0;
+  color: var(--via-color-text-error, #b00020);
+  font-family: var(--via-font-family-monospace);
+}
+.muted { color: var(--via-color-text-secondary); font-weight: normal; }
+
+.toolbar { display: flex; gap: 8px; }
+.toolbar button {
+  padding: 4px 10px;
+  font: inherit;
+  color: inherit;
+  background: var(--via-color-background-secondary);
+  border: 1px solid var(--via-color-border-primary);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+  gap: 16px;
+}
+.panel { min-width: 0; }
+.panel h2, .hex-section h2 { font: var(--via-typography-heading5); }
+.tree {
+  height: 60vh;
+  overflow: auto;
+  padding: 8px;
+  border: 1px solid var(--via-color-border-primary);
+  border-radius: 6px;
+  font-family: var(--via-font-family-monospace);
+  font-size: 12px;
+}
+
+details { margin: 4px 0; }
+summary { cursor: pointer; }
+details details { margin-left: 16px; }
+.key { color: var(--via-color-text-primary); font-weight: 600; }
+.type { color: var(--via-color-text-secondary); font-size: 11px; }
+.leaf { margin-left: 16px; }
+
+table { border-collapse: collapse; width: 100%; margin: 4px 0; }
+th, td {
+  padding: 4px 6px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--via-color-border-primary);
+  word-break: break-all;
+}
+th { color: var(--via-color-text-secondary); font-weight: 600; }
+tr.el[data-start]:hover, tr.el:hover { background: var(--via-color-background-secondary); }
+tr.eoo td { color: var(--via-color-text-secondary); }
+
+.hex { font-family: var(--via-font-family-monospace); font-size: 12px; overflow-x: auto; white-space: pre; }
+.hex-row { display: block; }
+.hex .off { color: var(--via-color-text-secondary); }
+.hex .ascii { color: var(--via-color-text-secondary); }
+.hex [data-i].hl { background: var(--via-color-background-accent-yellow); color: #000; border-radius: 2px; }
+
+.app-footer {
+  margin-top: 24px;
+  padding: 16px;
+  border-top: 1px solid var(--via-color-border-primary);
+  color: var(--via-color-text-secondary);
+}
+.app-footer nav { display: flex; flex-wrap: wrap; gap: 16px; }
+.app-footer a { color: inherit; }
+
+@media (max-width: 480px) {
+  main { padding: 12px; }
+  .tree { height: 50vh; }
+}
