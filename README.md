@@ -1,5 +1,7 @@
 # BSON Explainer (web)
 
+> **Try this live:** <https://www.freniche.com/bsonexplainer-web/>
+
 A single-page app that shows how a JSON document is converted into BSON, byte by byte.
 
 Paste JSON (MongoDB Extended JSON is supported) and see three things side by side:
@@ -59,7 +61,7 @@ After changing `index.html`, `styles.css` or anything in `src/`, run `pnpm build
 
 | Path | Purpose |
 | :--- | :--- |
-| `index.html`, `styles.css` | Page and styles (styles use Via design tokens) |
+| `index.html`, `styles.css` | Page and styles |
 | `src/app.js` | UI: rendering, hover linking, expand/collapse |
 | `src/extjson.js` | JSON and Extended JSON to a typed tree |
 | `src/bson.js` | BSON encoder; returns bytes plus a tree with byte ranges |
@@ -68,10 +70,6 @@ After changing `index.html`, `styles.css` or anything in `src/`, run `pnpm build
 | `specs.md` | Requirements (source of truth) |
 | `plan.md` | Implementation plan and known limitations |
 | `.github/workflows/pages.yml` | Test, build and deploy to GitHub Pages on push to `main` |
-
-## Design system
-
-The UI uses the [Via design system](https://github.com/10gen/via) through its CSS tokens and fonts (`@via-ds/tokens` and `@via-ds/components`). The build copies them into `dist/vendor/`.
 
 ## Known limitations
 

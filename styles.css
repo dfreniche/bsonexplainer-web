@@ -94,6 +94,24 @@ tr.eoo td { color: var(--via-color-text-secondary); }
 .hex .ascii { color: var(--via-color-text-secondary); }
 .hex [data-i].hl { background: var(--via-color-background-accent-yellow); color: #000; border-radius: 2px; }
 
+/* "Fork me on GitHub" corner ribbon, top-right, same look as GitHub's classic ribbon. */
+.github-ribbon {
+  position: fixed;
+  top: 40px;
+  right: -48px;
+  z-index: 10;
+  width: 200px;
+  padding: 6px 0;
+  text-align: center;
+  transform: rotate(45deg);
+  background: #151513;
+  color: #fff;
+  font: 600 13px/1 var(--via-font-family-body, sans-serif);
+  text-decoration: none;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+}
+.github-ribbon:hover { background: #3a3a36; }
+
 .app-footer {
   margin-top: 24px;
   padding: 16px;

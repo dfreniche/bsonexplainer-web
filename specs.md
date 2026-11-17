@@ -87,3 +87,5 @@ Embedded field "menu" (document):
 - Decimal128 (`$numberDecimal`) is not supported yet. Known limitations are listed in `plan.md`.
 
 - Footer links: BSON overview (mongodb.com), BSON specification (bsonspec.org), and "Fork me on GitHub" (github.com/dfreniche/bsonexplainer-web).
+
+- "Fork me on GitHub" is a corner ribbon (top-right, fixed) linking to github.com/dfreniche/bsonexplainer-web; it replaces the footer link.
