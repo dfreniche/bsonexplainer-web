@@ -91,3 +91,5 @@ Embedded field "menu" (document):
 - "Fork me on GitHub" is a corner ribbon (top-right, fixed) linking to github.com/dfreniche/bsonexplainer-web; it replaces the footer link.
 
 - JSON and BSON trees stay in sync: expanding or collapsing a node in one panel does the same in the other. Nodes are paired by their path from the root.
+
+- Hover highlighting is synced: hovering a BSON row highlights its JSON node and its bytes in the hex dump; hovering a JSON node highlights its BSON row and bytes.

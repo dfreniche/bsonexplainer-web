@@ -92,6 +92,7 @@ tr.eoo td { color: var(--via-color-text-secondary); }
 .hex-row { display: block; }
 .hex .off { color: var(--via-color-text-secondary); }
 .hex .ascii { color: var(--via-color-text-secondary); }
+.sync-hl { background: var(--via-color-background-accent-yellow); color: #000; border-radius: 2px; }
 .hex [data-i].hl { background: var(--via-color-background-accent-yellow); color: #000; border-radius: 2px; }
 
 /* "Fork me on GitHub" corner ribbon, top-right, same look as GitHub's classic ribbon. */

@@ -67,7 +67,7 @@ function renderJson(key, node, segs = []) {
       entries.map(([k, v]) => renderJson(k, v, [...segs, k])).join('') + `</details>`;
   }
   const typeName = TYPE_NAMES[node.t] ?? node.t;
-  return `<div class="leaf">${label}${key === null ? '' : ': '}${esc(jsonLeafText(node))} <span class="type">${esc(typeName)}</span></div>`;
+  return `<div class="leaf" data-path="${esc(JSON.stringify(segs))}">${label}${key === null ? '' : ': '}${esc(jsonLeafText(node))} <span class="type">${esc(typeName)}</span></div>`;
 }
 
 // ---------- BSON tree (right panel) ----------
@@ -78,7 +78,7 @@ function renderBsonDoc(doc, bytes, label, segs = []) {
     const [vs, ve] = el.valueRange;
     const valueBytes = escapeBytes(bytes, vs, ve);
     const shown = el.children ? `${el.shown} (shown below)` : el.shown;
-    return `<tr class="el" data-start="${el.start}" data-end="${el.end}">
+    return `<tr class="el" data-row="${esc(JSON.stringify([...segs, el.name]))}" data-start="${el.start}" data-end="${el.end}">
       <td>${esc(code)}</td>
       <td>${esc(el.name)}\\x00</td>
       <td><code>${esc(valueBytes)}</code><br><span class="muted">${esc(shown)}</span></td>
@@ -120,11 +120,50 @@ function highlight(start, end) {
   for (let i = start; i < end && i < byteSpans.length; i++) byteSpans[i].classList.add('hl');
 }
 
+// Hover highlighting across the three views:
+//   BSON row  -> its JSON node and its bytes in the hex dump
+//   JSON node -> its BSON row and its bytes in the hex dump
+// Paired elements are found by path (see indexTrees).
+let jsonEls = new Map();   // path -> JSON leaf or object/array <details>
+let bsonRows = new Map();  // path -> BSON table row for that field
+
+function indexRows() {
+  jsonEls = new Map();
+  for (const el of jsonPanel.querySelectorAll('[data-path]')) jsonEls.set(el.dataset.path, el);
+  bsonRows = new Map();
+  for (const tr of bsonPanel.querySelectorAll('tr[data-row]')) bsonRows.set(tr.dataset.row, tr);
+}
+
+// Object/array nodes are highlighted on their <summary>, leaves on the element itself.
+const hlTarget = (el) => (el && el.tagName === 'DETAILS' ? el.querySelector(':scope > summary') : el);
+
+function showSync(...els) {
+  document.querySelectorAll('.sync-hl').forEach((e) => e.classList.remove('sync-hl'));
+  for (const el of els) if (el) hlTarget(el).classList.add('sync-hl');
+}
+
 bsonPanel.addEventListener('mouseover', (e) => {
-  const target = e.target.closest('[data-start]');
-  if (target) highlight(Number(target.dataset.start), Number(target.dataset.end));
+  const row = e.target.closest('tr[data-row]');
+  const hexRange = e.target.closest('[data-start]');
+  if (hexRange) highlight(Number(hexRange.dataset.start), Number(hexRange.dataset.end));
+  if (row) showSync(row, jsonEls.get(row.dataset.row));
+  else showSync();
 });
-bsonPanel.addEventListener('mouseleave', () => highlight());
+
+jsonPanel.addEventListener('mouseover', (e) => {
+  const node = e.target.closest('[data-path]');
+  if (!node) return showSync();
+  const row = bsonRows.get(node.dataset.path);
+  showSync(node, row);
+  highlight(row ? Number(row.dataset.start) : undefined, row ? Number(row.dataset.end) : undefined);
+});
+
+for (const panel of [bsonPanel, jsonPanel]) {
+  panel.addEventListener('mouseleave', () => {
+    highlight();
+    showSync();
+  });
+}
 
 // ---------- Keep JSON and BSON trees in sync ----------
 
@@ -132,6 +171,7 @@ bsonPanel.addEventListener('mouseleave', () => highlight());
 let pairIndex = new Map();
 
 function indexTrees() {
+  indexRows();
   pairIndex = new Map();
   for (const d of document.querySelectorAll('.tree details[data-path]')) {
     const list = pairIndex.get(d.dataset.path) ?? [];
