@@ -7,6 +7,7 @@ const bsonPanel = document.getElementById('bson-tree');
 const hexPanel = document.getElementById('hex-dump');
 const errorBox = document.getElementById('error');
 const sizeLabel = document.getElementById('total-size');
+const jsonSizeLabel = document.getElementById('json-size');
 
 const SAMPLE = `{
   "menu": {
@@ -202,7 +203,8 @@ function render() {
     errorBox.hidden = true;
     jsonPanel.innerHTML = renderJson(null, parsed);
     bsonPanel.innerHTML = renderBsonDoc(tree, bytes, tree.isArray ? 'array' : 'document');
-    sizeLabel.textContent = `— total size: ${bytes.length} bytes`;
+    sizeLabel.textContent = `${bytes.length} bytes`;
+    jsonSizeLabel.textContent = `— total size: ${new TextEncoder().encode(input.value).length} bytes`;
     renderHex(bytes);
     indexTrees();
   } catch (err) {

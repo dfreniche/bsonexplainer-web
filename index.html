@@ -15,7 +15,7 @@
 
   <header class="app-header">
     <!-- FIGLET_TITLE -->
-    <p class="subtitle">Shows how JSON is converted into BSON, byte by byte.</p>
+    <p class="subtitle">Shows how JSON is converted into BSON, byte by byte. Runs in your browser. No data sent.</p>
   </header>
 
   <main>
@@ -32,7 +32,7 @@
 
     <section class="panels">
       <div class="panel">
-        <h2>JSON</h2>
+        <h2>JSON <span id="json-size" class="muted"></span></h2>
         <div id="json-tree" class="tree" aria-label="JSON tree"></div>
       </div>
       <div class="panel">
@@ -53,6 +53,8 @@
     <nav aria-label="Resources">
       <a href="https://www.mongodb.com/resources/languages/bson" target="_blank" rel="noopener">What is BSON?</a>
       <a href="https://bsonspec.org/spec.html" target="_blank" rel="noopener">BSON specification</a>
+      <a href="https://bug0.com/tools/json-to-bson" target="_blank" rel="noopener">JSON to BSON (bug0)</a>
+      <a href="https://www.mongodb.com/docs/database-tools/bsondump/" target="_blank" rel="noopener">bsondump docs</a>
     </nav>
   </footer>
 

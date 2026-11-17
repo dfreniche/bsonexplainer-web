@@ -95,3 +95,7 @@ Embedded field "menu" (document):
 - Hover highlighting is synced: hovering a BSON row highlights its JSON node and its bytes in the hex dump; hovering a JSON node highlights its BSON row and bytes.
 
 - Highlights and the title use MongoDB Spring Green (Via `green-400`, #00ED64); the title uses `green-600` in light mode for contrast.
+
+- Subtitle: "Shows how JSON is converted into BSON, byte by byte. Runs in your browser. No data sent."
+- Each panel shows its total size: JSON = UTF-8 bytes of the input text as typed; BSON = encoded bytes.
+- Footer links: BSON overview, BSON specification, bug0 JSON to BSON tool, bsondump docs.
