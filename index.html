@@ -36,16 +36,17 @@
         <div id="json-tree" class="tree" aria-label="JSON tree"></div>
       </div>
       <div class="panel">
-        <h2>BSON <span id="total-size" class="muted"></span></h2>
-        <div id="bson-tree" class="tree" aria-label="BSON tree"></div>
+        <div class="tabs" role="tablist" aria-label="BSON views">
+          <button type="button" role="tab" id="tab-bson" aria-controls="bson-tree" aria-selected="true" data-tab="bson">BSON</button>
+          <button type="button" role="tab" id="tab-hex" aria-controls="hex-dump" aria-selected="false" data-tab="hex">Hex dump</button>
+          <span id="total-size" class="muted"></span>
+        </div>
+        <div id="bson-tree" class="tree" role="tabpanel" aria-labelledby="tab-bson"></div>
+        <div id="hex-dump" class="tree hex" role="tabpanel" aria-labelledby="tab-hex" hidden></div>
       </div>
     </section>
 
-    <section class="hex-section">
-      <h2>Hex dump</h2>
-      <p class="muted">Hover a row in the BSON tree to highlight its bytes.</p>
-      <div id="hex-dump" class="hex" aria-label="Hex dump"></div>
-    </section>
+    <p class="muted hint">Hover a row in the BSON tree or a node in the JSON tree to highlight the matching bytes in the hex dump.</p>
   </main>
 
   <footer class="app-footer">

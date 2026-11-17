@@ -61,7 +61,23 @@ textarea {
   gap: 16px;
 }
 .panel { min-width: 0; }
-.panel h2, .hex-section h2 { font: var(--via-typography-heading5); }
+.panel h2 { font: var(--via-typography-heading5); }
+.tabs { display: flex; align-items: center; gap: 4px; margin-bottom: 8px; flex-wrap: wrap; }
+.tabs [role="tab"] {
+  padding: 6px 12px;
+  font: var(--via-typography-body2);
+  color: var(--via-color-text-secondary);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+.tabs [role="tab"][aria-selected="true"] {
+  color: var(--via-color-text-primary);
+  border-bottom-color: var(--via-color-green-400);
+}
+.tabs #total-size { margin-left: auto; font-size: 13px; }
+.hint { margin: 12px 0 0; font-size: 13px; }
 .tree {
   height: 60vh;
   overflow: auto;

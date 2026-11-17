@@ -217,6 +217,17 @@ input.addEventListener('input', () => {
   timer = setTimeout(render, 150);
 });
 
+// Right-hand panel tabs: BSON tree or hex dump. The JSON panel is always visible.
+document.querySelector('[role="tablist"]').addEventListener('click', (e) => {
+  const tab = e.target.closest('[role="tab"]');
+  if (!tab) return;
+  for (const t of document.querySelectorAll('[role="tab"]')) {
+    const selected = t === tab;
+    t.setAttribute('aria-selected', String(selected));
+    document.getElementById(t.getAttribute('aria-controls')).hidden = !selected;
+  }
+});
+
 document.querySelector('.toolbar').addEventListener('click', (e) => {
   const action = e.target.dataset.action;
   if (!action) return;
