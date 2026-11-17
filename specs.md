@@ -99,3 +99,5 @@ Embedded field "menu" (document):
 - Subtitle: "Shows how JSON is converted into BSON, byte by byte. Runs in your browser. No data sent."
 - Each panel shows its total size: JSON = UTF-8 bytes of the input text as typed; BSON = encoded bytes.
 - Footer links: BSON overview, BSON specification, bug0 JSON to BSON tool, bsondump docs.
+
+- Favicon: MongoDB favicon.ico, self-hosted at the site root (copied from https://www.mongodb.com/assets/images/global/favicon.ico).

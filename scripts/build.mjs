@@ -22,6 +22,7 @@ const html = readFileSync(join(root, 'index.html'), 'utf8').replace(
 writeFileSync(join(out, 'index.html'), html);
 
 copyFileSync(join(root, 'styles.css'), join(out, 'styles.css'));
+copyFileSync(join(root, 'favicon.ico'), join(out, 'favicon.ico'));
 cpSync(join(root, 'src'), join(out, 'src'), { recursive: true });
 
 copyFileSync(nm('@via-ds/tokens/dist/tokens.css'), join(out, 'vendor/tokens.css'));
