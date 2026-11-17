@@ -85,3 +85,5 @@ Embedded field "menu" (document):
 
 - Build output is `dist/` (`pnpm build`); deployed to GitHub Pages by `.github/workflows/pages.yml`.
 - Decimal128 (`$numberDecimal`) is not supported yet. Known limitations are listed in `plan.md`.
+
+- Footer links: BSON overview (mongodb.com), BSON specification (bsonspec.org), and "Fork me on GitHub" (github.com/dfreniche/bsonexplainer-web).

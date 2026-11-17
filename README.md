@@ -82,3 +82,7 @@ The UI uses the [Via design system](https://github.com/10gen/via) through its CS
 ## Deployment
 
 Pushing to `main` runs `.github/workflows/pages.yml`, which runs the tests, builds `dist/` and publishes it to GitHub Pages. Enable Pages in the repository settings with the source set to "GitHub Actions".
+
+## Footer
+
+The footer links to the BSON overview on mongodb.com, the BSON specification, and the GitHub repository ("Fork me on GitHub").
