@@ -146,3 +146,4 @@ tr.eoo td { color: var(--via-color-text-secondary); }
   main { padding: 12px; }
   .tree { height: 50vh; }
 }
+.info { cursor: help; font-size: 0.85em; }
