@@ -5,7 +5,9 @@ Status: v0.1.0 implemented. Sample renders to 219 bytes (matches the spec exampl
 ## Decisions
 - Via: the packages `@via-ds/tokens` and `@via-ds/components` are public on npm, so no token is needed. Only the CSS is used (tokens, fonts, components index.css), vendored into `dist/vendor/`. No React.
 - Build: `pnpm build` runs `scripts/build.mjs`, which copies the app to `dist/` for GitHub Pages and renders the ASCII title with figlet at build time (no runtime font fetch).
-- Hover linking: hovering a BSON row highlights its bytes in the hex dump.
+- Hover linking: BSON row <-> JSON node <-> hex bytes are highlighted together, paired by path from the root.
+- Expand/collapse is mirrored between the JSON and BSON trees (paired by path).
+- Brand palette: Spring Green highlights/title, Forest Green light title and ribbon (hover Evergreen). Page background stays on Via neutral tokens.
 - Open-question defaults (not confirmed by user): Pages deploy via GitHub Actions from `main`.
 
 ## Steps
@@ -16,6 +18,12 @@ Status: v0.1.0 implemented. Sample renders to 219 bytes (matches the spec exampl
 5. [done] Styling with Via tokens.
 6. [done] Tests with `node:test` (`test/bson.test.mjs`).
 7. [done] GitHub Actions workflow (`.github/workflows/pages.yml`). Not yet run on GitHub.
+8. [done] Footer with BSON resources (later reduced to BSON overview, spec, bug0 tool, bsondump docs) and "Fork me on GitHub" corner ribbon.
+9. [done] Sync expand/collapse between JSON and BSON trees (`onToggle` in `src/app.js`).
+10. [done] Sync hover highlight between BSON rows, JSON nodes and hex bytes (`showSync`, `highlight`).
+11. [done] MongoDB brand colors for highlights, title and ribbon.
+12. [done] Hex dump moved into a tab next to BSON; the JSON panel is always visible.
+13. [done] JSON size label, updated subtitle, MongoDB favicon (`favicon.ico`).
 
 ## Known limitations / TODO
 - `$numberDecimal` (Decimal128) is rejected with an error.
