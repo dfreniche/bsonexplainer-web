@@ -91,7 +91,7 @@ function renderBsonDoc(doc, bytes, label, segs = []) {
       const tip = `int32, little-endian: ${n} = 0x${hexN}, stored lowest byte first as ${escapeBytes(bytes, ss, se)}. ` +
         `Upper bytes are zero when the value fits in fewer than 4 bytes.` +
         (el.typeCode === 0x02 ? ' For strings the size counts the trailing \\x00.' : '');
-      sizeCell = `<code>${esc(escapeBytes(bytes, ss, se))}</code><br><span class="muted">${n} bytes</span> <span class="info" role="img" tabindex="0" aria-label="${esc(tip)}" title="${esc(tip)}">ℹ️</span>`;
+      sizeCell = `<code>${esc(escapeBytes(bytes, ss, se))}</code><br><span class="muted">${n} bytes</span> <span class="info" role="img" tabindex="0" aria-label="${esc(tip)}" data-tip="${esc(tip)}">ℹ️</span>`;
     }
     return `<tr class="el" data-row="${esc(JSON.stringify([...segs, el.name]))}" data-start="${el.start}" data-end="${el.end}">
       <td>${esc(code)}</td>

@@ -27,7 +27,7 @@ Status: v0.1.0 implemented. Sample renders to 219 bytes (matches the spec exampl
 14. [done] "Field size" column in BSON tables, separating the int32 length prefix (String, Binary, Document, Array) from the field value. Encoder exposes `sizeRange` per element; `renderBsonDoc` adds the column; fixed-size types show `—`. See `specs.md`.
 15. [done] Tooltip on the field size cell (and header) explaining int32 little-endian encoding. Native `title` attribute.
 16. [done] Move the size tooltip onto a small ℹ️ emoji after the size, so it shows only on hovering the emoji.
-17. [todo] Fix: native `title` tooltip did not show and `cursor: help` looked oversized. Replace with a CSS tooltip (`data-tip`, `::after`) and the default cursor.
+17. [done] Fix: native `title` tooltip did not show and `cursor: help` looked oversized. Replace with a CSS tooltip (`data-tip`, `::after`) and the default cursor.
 
 ## Known limitations / TODO
 - `$numberDecimal` (Decimal128) is rejected with an error.

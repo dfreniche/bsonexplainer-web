@@ -146,4 +146,13 @@ tr.eoo td { color: var(--via-color-text-secondary); }
   main { padding: 12px; }
   .tree { height: 50vh; }
 }
-.info { cursor: help; font-size: 0.85em; }
+.info { position: relative; font-size: 0.85em; }
+.info:hover::after, .info:focus::after {
+  content: attr(data-tip);
+  position: absolute; left: 0; bottom: 100%; margin-bottom: 4px;
+  width: 260px; padding: 6px 8px; z-index: 10;
+  white-space: normal; font-size: 12px; line-height: 1.4; text-align: left;
+  background: var(--via-color-background-primary, #fff); color: var(--via-color-text-primary, #000);
+  border: 1px solid var(--via-color-border-primary, #888); border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25); pointer-events: none;
+}
