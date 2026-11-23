@@ -78,3 +78,12 @@ test('spec example document (menu) is 219 bytes', () => {
   assert.equal(tree.size, 219);
   assert.equal(tree.elements[0].children.size, 208);
 });
+
+test('size prefix is exposed separately from the value', () => {
+  const { tree } = encode(fromJsonText('{"id":"file","n":1,"b":{"$binary":{"base64":"AQID","subType":"00"}}}'));
+  const [str, int, bin] = tree.elements;
+  assert.deepEqual(str.sizeRange, [8, 12]);
+  assert.deepEqual(str.valueRange, [12, 17]); // "file\0"
+  assert.equal(int.sizeRange, null);
+  assert.equal(bin.valueRange[0] - bin.sizeRange[1], 0); // value starts with the subtype byte
+});

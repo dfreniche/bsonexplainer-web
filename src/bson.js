@@ -111,6 +111,7 @@ function encodeElement(w, name, value) {
   const valueStart = w.pos;
   let children = null;
   let shown;
+  let sizeRange = null; // int32 length prefix, for types that have one
 
   switch (value.t) {
     case 'double':
@@ -119,15 +120,18 @@ function encodeElement(w, name, value) {
       break;
     case 'string':
       w.string(value.v);
+      sizeRange = [valueStart, valueStart + 4];
       shown = JSON.stringify(value.v);
       break;
     case 'doc':
     case 'array':
       children = encodeDocument(w, value);
+      sizeRange = [valueStart, valueStart + 4];
       shown = `embedded ${value.t === 'array' ? 'array' : 'document'}, ${children.size} bytes`;
       break;
     case 'binary':
       w.i32(value.bytes.length);
+      sizeRange = [valueStart, valueStart + 4];
       w.u8(value.subtype);
       w.raw(value.bytes);
       shown = `subtype 0x${value.subtype.toString(16).padStart(2, '0')}, ${value.bytes.length} bytes`;
@@ -188,7 +192,8 @@ function encodeElement(w, name, value) {
     typeName: TYPE_NAMES[value.t],
     name,
     nameRange,
-    valueRange: [valueStart, w.pos],
+    sizeRange,
+    valueRange: [sizeRange ? sizeRange[1] : valueStart, w.pos],
     shown,
     children,
   };

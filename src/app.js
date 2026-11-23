@@ -77,24 +77,34 @@ function renderBsonDoc(doc, bytes, label, segs = []) {
   const rows = doc.elements.map((el) => {
     const code = `0x${hex2(el.typeCode)} = ${el.typeName}`;
     const [vs, ve] = el.valueRange;
-    const valueBytes = escapeBytes(bytes, vs, ve);
     const shown = el.children ? `${el.shown} (shown below)` : el.shown;
+    // Documents/arrays: the value is the nested table below, so only the description is shown here.
+    const valueCell = el.children
+      ? `<span class="muted">${esc(shown)}</span>`
+      : `<code>${esc(escapeBytes(bytes, vs, ve))}</code><br><span class="muted">${esc(shown)}</span>`;
+    let sizeCell = '—';
+    if (el.sizeRange) {
+      const [ss, se] = el.sizeRange;
+      const n = new DataView(bytes.buffer, bytes.byteOffset + ss, 4).getInt32(0, true);
+      sizeCell = `<code>${esc(escapeBytes(bytes, ss, se))}</code><br><span class="muted">${n} bytes</span>`;
+    }
     return `<tr class="el" data-row="${esc(JSON.stringify([...segs, el.name]))}" data-start="${el.start}" data-end="${el.end}">
       <td>${esc(code)}</td>
       <td>${esc(el.name)}\\x00</td>
-      <td><code>${esc(valueBytes)}</code><br><span class="muted">${esc(shown)}</span></td>
+      <td>${sizeCell}</td>
+      <td>${valueCell}</td>
     </tr>`;
   }).join('');
   const [es, ee] = doc.eoo;
   const eoo = `<tr class="eoo" data-start="${es}" data-end="${ee}">
-    <td>0x00 = EOO</td><td>end of ${esc(label)}</td><td><code>\\x00</code></td></tr>`;
+    <td>0x00 = EOO</td><td>end of ${esc(label)}</td><td>—</td><td><code>\\x00</code></td></tr>`;
   const nested = doc.elements
     .filter((el) => el.children)
     .map((el) => renderBsonDoc(el.children, bytes, `Embedded field "${el.name}" (${el.typeName.toLowerCase()})`, [...segs, el.name]))
     .join('');
   return `<details open data-path="${esc(JSON.stringify(segs))}" data-start="${doc.start}" data-end="${doc.end}">
     <summary><span class="key">${esc(label)}</span> <span class="type">${doc.size} bytes</span></summary>
-    <table><thead><tr><th>type</th><th>field name</th><th>field value</th></tr></thead>
+    <table><thead><tr><th>type</th><th>field name</th><th>field size</th><th>field value</th></tr></thead>
     <tbody>${rows}${eoo}</tbody></table>${nested}
   </details>`;
 }

@@ -1,6 +1,6 @@
 # Plan
 
-Status: v0.1.0 implemented. Sample renders to 219 bytes (matches the spec example); 10 unit tests pass.
+Status: v0.1.0 implemented. Sample renders to 219 bytes (matches the spec example); 11 unit tests pass.
 
 ## Decisions
 - Via: the packages `@via-ds/tokens` and `@via-ds/components` are public on npm, so no token is needed. Only the CSS is used (tokens, fonts, components index.css), vendored into `dist/vendor/`. No React.
@@ -24,7 +24,7 @@ Status: v0.1.0 implemented. Sample renders to 219 bytes (matches the spec exampl
 11. [done] MongoDB brand colors for highlights, title and ribbon.
 12. [done] Hex dump moved into a tab next to BSON; the JSON panel is always visible.
 13. [done] JSON size label, updated subtitle, MongoDB favicon (`favicon.ico`).
-14. [todo] "Field size" column in BSON tables, separating the int32 length prefix (String, Binary, Document, Array) from the field value. Encoder exposes `sizeRange` per element; `renderBsonDoc` adds the column; fixed-size types show `—`. See `specs.md`.
+14. [done] "Field size" column in BSON tables, separating the int32 length prefix (String, Binary, Document, Array) from the field value. Encoder exposes `sizeRange` per element; `renderBsonDoc` adds the column; fixed-size types show `—`. See `specs.md`.
 
 ## Known limitations / TODO
 - `$numberDecimal` (Decimal128) is rejected with an error.
