@@ -24,6 +24,7 @@ Status: v0.1.0 implemented. Sample renders to 219 bytes (matches the spec exampl
 11. [done] MongoDB brand colors for highlights, title and ribbon.
 12. [done] Hex dump moved into a tab next to BSON; the JSON panel is always visible.
 13. [done] JSON size label, updated subtitle, MongoDB favicon (`favicon.ico`).
+14. [todo] "Field size" column in BSON tables, separating the int32 length prefix (String, Binary, Document, Array) from the field value. Encoder exposes `sizeRange` per element; `renderBsonDoc` adds the column; fixed-size types show `—`. See `specs.md`.
 
 ## Known limitations / TODO
 - `$numberDecimal` (Decimal128) is rejected with an error.
