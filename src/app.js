@@ -24,6 +24,7 @@ const SAMPLE = `{
 }`;
 
 const MAX_SHOWN_BYTES = 40;
+const SIZE_TIP = 'Length prefix: a 4-byte int32 in little-endian order (lowest byte first), so small values are followed by zero bytes. 5 is stored as \\x05\\x00\\x00\\x00.';
 
 const esc = (s) =>
   String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
@@ -86,7 +87,11 @@ function renderBsonDoc(doc, bytes, label, segs = []) {
     if (el.sizeRange) {
       const [ss, se] = el.sizeRange;
       const n = new DataView(bytes.buffer, bytes.byteOffset + ss, 4).getInt32(0, true);
-      sizeCell = `<code>${esc(escapeBytes(bytes, ss, se))}</code><br><span class="muted">${n} bytes</span>`;
+      const hexN = (n >>> 0).toString(16).padStart(8, '0');
+      const tip = `int32, little-endian: ${n} = 0x${hexN}, stored lowest byte first as ${escapeBytes(bytes, ss, se)}. ` +
+        `Upper bytes are zero when the value fits in fewer than 4 bytes.` +
+        (el.typeCode === 0x02 ? ' For strings the size counts the trailing \\x00.' : '');
+      sizeCell = `<span title="${esc(tip)}"><code>${esc(escapeBytes(bytes, ss, se))}</code><br><span class="muted">${n} bytes</span></span>`;
     }
     return `<tr class="el" data-row="${esc(JSON.stringify([...segs, el.name]))}" data-start="${el.start}" data-end="${el.end}">
       <td>${esc(code)}</td>
@@ -104,7 +109,7 @@ function renderBsonDoc(doc, bytes, label, segs = []) {
     .join('');
   return `<details open data-path="${esc(JSON.stringify(segs))}" data-start="${doc.start}" data-end="${doc.end}">
     <summary><span class="key">${esc(label)}</span> <span class="type">${doc.size} bytes</span></summary>
-    <table><thead><tr><th>type</th><th>field name</th><th>field size</th><th>field value</th></tr></thead>
+    <table><thead><tr><th>type</th><th>field name</th><th title="${esc(SIZE_TIP)}">field size</th><th>field value</th></tr></thead>
     <tbody>${rows}${eoo}</tbody></table>${nested}
   </details>`;
 }
