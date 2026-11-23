@@ -109,3 +109,5 @@ Embedded field "menu" (document):
 - The field size cell has a tooltip (native `title` attribute, no dependency) explaining the encoding, e.g. for 5: "int32, little-endian: 5 = 0x00000005, stored lowest byte first as \x05\x00\x00\x00. The upper bytes are zero because the value fits in fewer than 4 bytes." The size header cell carries the same generic explanation. For strings it also says the size counts the trailing \x00.
 
 - The size tooltip is attached to a small ℹ️ emoji placed after the size (`5 bytes ℹ️`), not to the whole cell: it appears only when hovering the emoji. The emoji is focusable (`tabindex="0"`) with `role="img"` and an `aria-label`, so keyboard users can reach it. The header tooltip is unchanged.
+
+- Correction: the ℹ️ tooltip is a CSS tooltip (`data-tip` + `::after`, shown on hover and keyboard focus), not the native `title` attribute, which was unreliable. The cursor over ℹ️ is the default pointer (no `cursor: help`). The tooltip opens above the icon, wraps text, and has a high z-index so table and panel borders don't hide it.
