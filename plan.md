@@ -28,6 +28,7 @@ Status: v0.1.0 implemented. Sample renders to 219 bytes (matches the spec exampl
 15. [done] Tooltip on the field size cell (and header) explaining int32 little-endian encoding. Native `title` attribute.
 16. [done] Move the size tooltip onto a small ℹ️ emoji after the size, so it shows only on hovering the emoji.
 17. [done] Fix: native `title` tooltip did not show and `cursor: help` looked oversized. Replace with a CSS tooltip (`data-tip`, `::after`) and the default cursor.
+18. [done] Fixed-size types (Int32, Double, ObjectId, Boolean, Date, Null, Timestamp, Int64, MinKey, MaxKey) show `N bytes (fixed)` in the field size column with an ℹ️ tooltip explaining implied sizes. Regex stays `—`.
 
 ## Known limitations / TODO
 - `$numberDecimal` (Decimal128) is rejected with an error.

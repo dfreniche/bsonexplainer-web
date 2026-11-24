@@ -24,6 +24,20 @@ const SAMPLE = `{
 }`;
 
 const MAX_SHOWN_BYTES = 40;
+// Types whose value has a fixed size implied by the type itself (no length prefix stored).
+const FIXED_SIZES = {
+  0x01: ['Double', 8, '64-bit IEEE 754 float'],
+  0x07: ['ObjectId', 12, '4-byte timestamp + 5-byte random + 3-byte counter'],
+  0x08: ['Boolean', 1, 'a single byte: \\x00 or \\x01'],
+  0x09: ['Date', 8, 'int64 milliseconds since the Unix epoch'],
+  0x0a: ['Null', 0, 'the type byte alone says it is null; no value bytes follow'],
+  0x10: ['Int32', 4, '32-bit signed integer'],
+  0x11: ['Timestamp', 8, 'two uint32: increment + seconds'],
+  0x12: ['Int64', 8, '64-bit signed integer'],
+  0x7f: ['MaxKey', 0, 'the type byte alone says it is MaxKey; no value bytes follow'],
+  0xff: ['MinKey', 0, 'the type byte alone says it is MinKey; no value bytes follow'],
+};
+
 const SIZE_TIP = 'Length prefix: a 4-byte int32 in little-endian order (lowest byte first), so small values are followed by zero bytes. 5 is stored as \\x05\\x00\\x00\\x00.';
 
 const esc = (s) =>
@@ -92,6 +106,11 @@ function renderBsonDoc(doc, bytes, label, segs = []) {
         `Upper bytes are zero when the value fits in fewer than 4 bytes.` +
         (el.typeCode === 0x02 ? ' For strings the size counts the trailing \\x00.' : '');
       sizeCell = `<code>${esc(escapeBytes(bytes, ss, se))}</code><br><span class="muted">${n} bytes</span> <span class="info" role="img" tabindex="0" aria-label="${esc(tip)}" data-tip="${esc(tip)}">ℹ️</span>`;
+    }
+    else if (FIXED_SIZES[el.typeCode]) {
+      const [name, n, what] = FIXED_SIZES[el.typeCode];
+      const tip = `Implied size: no length prefix is stored. Every ${name} value is always ${n} byte${n === 1 ? '' : 's'} (${what}), so the type byte already tells the parser how much to read.`;
+      sizeCell = `<span class="muted">${n} byte${n === 1 ? '' : 's'} (fixed)</span> <span class="info" role="img" tabindex="0" aria-label="${esc(tip)}" data-tip="${esc(tip)}">ℹ️</span>`;
     }
     return `<tr class="el" data-row="${esc(JSON.stringify([...segs, el.name]))}" data-start="${el.start}" data-end="${el.end}">
       <td>${esc(code)}</td>
