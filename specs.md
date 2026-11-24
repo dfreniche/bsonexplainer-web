@@ -111,3 +111,5 @@ Embedded field "menu" (document):
 - The size tooltip is attached to a small ℹ️ emoji placed after the size (`5 bytes ℹ️`), not to the whole cell: it appears only when hovering the emoji. The emoji is focusable (`tabindex="0"`) with `role="img"` and an `aria-label`, so keyboard users can reach it. The header tooltip is unchanged.
 
 - Correction: the ℹ️ tooltip is a CSS tooltip (`data-tip` + `::after`, shown on hover and keyboard focus), not the native `title` attribute, which was unreliable. The cursor over ℹ️ is the default pointer (no `cursor: help`). The tooltip opens above the icon, wraps text, and has a high z-index so table and panel borders don't hide it.
+
+- The ℹ️ tooltip is 360px wide (max 80vw) and wraps only at word boundaries (it must not inherit `word-break: break-all` from the value cells).
