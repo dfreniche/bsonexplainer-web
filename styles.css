@@ -114,6 +114,8 @@ tr.eoo td { color: var(--via-color-text-secondary); }
 /* MongoDB Spring Green (#00ED64) from Via's green palette. */
 .sync-hl { background: var(--via-color-green-400); color: #000; border-radius: 2px; }
 .hex [data-i].hl { background: var(--via-color-green-400); color: #000; border-radius: 2px; }
+/* Child spans set their own (light) colors; force dark text on the green highlight. */
+.sync-hl, .sync-hl *, .hex [data-i].hl { color: #000 !important; }
 
 /* "Fork me on GitHub" corner ribbon, top-right, same look as GitHub's classic ribbon. */
 .github-ribbon {
