@@ -95,7 +95,7 @@ function fromWrapper(key, val) {
       if (!val || typeof val.t !== 'number' || typeof val.i !== 'number') {
         throw new Error('$timestamp needs {"t": n, "i": n}');
       }
-      return { t: 'timestamp', t: val.t, i: val.i };
+      return { t: 'timestamp', sec: val.t, i: val.i };
 
     case '$minKey':
       return { t: 'minKey' };

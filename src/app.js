@@ -68,7 +68,7 @@ const jsonLeafText = (node) => {
     case 'null': return 'null';
     case 'binary': return `binary, ${node.bytes.length} bytes`;
     case 'regex': return `/${node.pattern}/${node.options}`;
-    case 'timestamp': return `t=${node.t}, i=${node.i}`;
+    case 'timestamp': return `t=${node.sec}, i=${node.i}`;
     default: return node.t;
   }
 };

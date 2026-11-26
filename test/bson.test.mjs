@@ -87,3 +87,9 @@ test('size prefix is exposed separately from the value', () => {
   assert.equal(int.sizeRange, null);
   assert.equal(bin.valueRange[0] - bin.sizeRange[1], 0); // value starts with the subtype byte
 });
+
+test('$timestamp encodes increment then seconds as uint32 LE', () => {
+  const { bytes } = encode(fromJsonText('{"a":{"$timestamp":{"t":1,"i":2}}}'));
+  // 4B len, type 0x11, "a\0", then i=2, t=1
+  assert.deepEqual([...bytes.slice(4, 14)], [0x11, 0x61, 0, 2, 0, 0, 0, 1, 0, 0]);
+});

@@ -32,11 +32,11 @@ Status: v0.1.0 implemented. Sample renders to 219 bytes (matches the spec exampl
 19. [done] Fix: tooltip broke words mid-word (inherited `word-break: break-all`); now 360px wide with normal word breaking.
 20. [done] Fix: low contrast on hover highlight; child spans (`.key`, `.type`, `.muted`) now render black on the green highlight.
 21. [done] JSON input is now a CodeMirror 6 editor (`src/editor.js`: line numbers, JSON colors, auto-indent, bracket closing, folding). `scripts/build.mjs` bundles the app with esbuild into `dist/src/app.js` (~430 KB, ~140 KB gzipped). Verified with headless Chrome screenshot.
+22. [done] Fix: `$timestamp` was broken (`{ t: 'timestamp', t: ... }` overwrote the type tag). Seconds field renamed to `sec`; added a test.
 
 ## Known limitations / TODO
 - `$numberDecimal` (Decimal128) is rejected with an error.
 - JS objects reorder integer-like keys (`{"b":1,"1":2}` is read with "1" first).
-- `$timestamp` input is broken: `src/extjson.js:98` builds `{ t: 'timestamp', t: val.t, ... }`, so the type tag is overwritten (found by esbuild's duplicate-key warning). Needs a field rename.
 - JSON `1.0` is read as int32 (JS drops the fraction).
 - No automated UI tests; the page was checked with headless Chrome (DOM dump and screenshot).
 

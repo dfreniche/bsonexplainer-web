@@ -5,7 +5,7 @@
 //   {t:'double', v}  {t:'string', v}  {t:'bool', v}  {t:'null'}
 //   {t:'int32', v}   {t:'int64', v: BigInt}  {t:'date', ms: BigInt}
 //   {t:'objectId', hex}  {t:'binary', subtype, bytes: Uint8Array}
-//   {t:'regex', pattern, options}  {t:'timestamp', t, i}  {t:'minKey'} {t:'maxKey'}
+//   {t:'regex', pattern, options}  {t:'timestamp', sec, i}  {t:'minKey'} {t:'maxKey'}
 //
 // Output: { bytes: Uint8Array, tree } where `tree` describes every element with
 // its byte range, so the UI can show a table and link it to the hex dump.
@@ -168,9 +168,9 @@ function encodeElement(w, name, value) {
       // 8 bytes: increment (low 4 bytes) then seconds (high 4 bytes), both uint32 LE
       w.view(8, (dv) => {
         dv.setUint32(0, value.i >>> 0, true);
-        dv.setUint32(4, value.t >>> 0, true);
+        dv.setUint32(4, value.sec >>> 0, true);
       });
-      shown = `t=${value.t}, i=${value.i}`;
+      shown = `t=${value.sec}, i=${value.i}`;
       break;
     case 'int64':
       w.view(8, (dv) => dv.setBigInt64(0, value.v, true));
