@@ -33,6 +33,7 @@ Status: v0.1.0 implemented. Sample renders to 219 bytes (matches the spec exampl
 20. [done] Fix: low contrast on hover highlight; child spans (`.key`, `.type`, `.muted`) now render black on the green highlight.
 21. [done] JSON input is now a CodeMirror 6 editor (`src/editor.js`: line numbers, JSON colors, auto-indent, bracket closing, folding). `scripts/build.mjs` bundles the app with esbuild into `dist/src/app.js` (~430 KB, ~140 KB gzipped). Verified with headless Chrome screenshot.
 22. [done] Fix: `$timestamp` was broken (`{ t: 'timestamp', t: ... }` overwrote the type tag). Seconds field renamed to `sec`; added a test.
+23. [done] Draggable splitter between the JSON and BSON panels (`role="separator"`, keyboard accessible, dblclick resets), CSS grid driven by `--split`; stacked layout under 760px.
 
 ## Known limitations / TODO
 - `$numberDecimal` (Decimal128) is rejected with an error.

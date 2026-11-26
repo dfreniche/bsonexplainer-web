@@ -79,6 +79,7 @@ Embedded field "menu" (document):
 - **Design system**: install Via with pnpm (from the private `10gen/via` repo). Because the app must run on GitHub Pages as static files, the needed Via assets are bundled/vendored into the deployed output.
 - **ASCII title**: generated with the `figlet` npm library (external dependency, accepted by the user).
 - **JSON input editor**: CodeMirror 6 (`codemirror`, `@codemirror/lang-json`, `@codemirror/language`, `@codemirror/state`, `@codemirror/view`, `@lezer/highlight`) instead of a plain textarea: line numbers, JSON syntax colors (light/dark aware), auto-indent, bracket matching/closing, code folding, undo/redo. Chosen because a hand-made editor would be fragile; it runs fully in the browser, so static hosting still works. `esbuild` (dev dependency) bundles it into a single `dist/src/app.js` (no CDN, no data sent).
+- **Resizable panels**: a draggable divider between the JSON and BSON panels (pointer drag, Left/Right arrow keys, double-click or Home to reset to 50/50), range 20-80%. On narrow screens (<=760px) the panels stack and the divider is hidden. No dependency.
 - **Input types**: standard JSON plus MongoDB Extended JSON (`$oid`, `$date`, `$numberLong`, `$numberInt`, `$numberDouble`, `$numberDecimal`, `$binary`, `$regularExpression`, `$timestamp`, `$minKey`, `$maxKey`, ...). Plain JSON numbers map to int32, int64 or double depending on value.
 - **BSON panel**: collapsible tree with size, type/name/value tables and EOO markers (as in the example above), plus a raw hex dump of the whole byte stream.
 

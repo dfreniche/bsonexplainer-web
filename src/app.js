@@ -264,6 +264,39 @@ document.querySelector('[role="tablist"]').addEventListener('click', (e) => {
   }
 });
 
+// Draggable splitter between the JSON and BSON panels (pointer + keyboard).
+const panels = document.querySelector('.panels');
+const splitter = document.getElementById('splitter');
+const MIN_SPLIT = 20, MAX_SPLIT = 80;
+function setSplit(pct) {
+  const v = Math.min(MAX_SPLIT, Math.max(MIN_SPLIT, pct));
+  panels.style.setProperty('--split', v);
+  splitter.setAttribute('aria-valuenow', String(Math.round(v)));
+}
+splitter.addEventListener('pointerdown', (e) => {
+  splitter.setPointerCapture(e.pointerId);
+  splitter.classList.add('dragging');
+  e.preventDefault();
+});
+splitter.addEventListener('pointermove', (e) => {
+  if (!splitter.hasPointerCapture(e.pointerId)) return;
+  const r = panels.getBoundingClientRect();
+  setSplit(((e.clientX - r.left) / r.width) * 100);
+});
+splitter.addEventListener('pointerup', (e) => {
+  splitter.releasePointerCapture(e.pointerId);
+  splitter.classList.remove('dragging');
+});
+splitter.addEventListener('dblclick', () => setSplit(50));
+splitter.addEventListener('keydown', (e) => {
+  const cur = Number(splitter.getAttribute('aria-valuenow'));
+  if (e.key === 'ArrowLeft') setSplit(cur - 2);
+  else if (e.key === 'ArrowRight') setSplit(cur + 2);
+  else if (e.key === 'Home') setSplit(50);
+  else return;
+  e.preventDefault();
+});
+
 document.querySelector('.toolbar').addEventListener('click', (e) => {
   const action = e.target.dataset.action;
   if (!action) return;
