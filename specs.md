@@ -78,12 +78,13 @@ Embedded field "menu" (document):
 
 - **Design system**: install Via with pnpm (from the private `10gen/via` repo). Because the app must run on GitHub Pages as static files, the needed Via assets are bundled/vendored into the deployed output.
 - **ASCII title**: generated with the `figlet` npm library (external dependency, accepted by the user).
+- **JSON input editor**: CodeMirror 6 (`codemirror`, `@codemirror/lang-json`, `@codemirror/language`, `@codemirror/state`, `@codemirror/view`, `@lezer/highlight`) instead of a plain textarea: line numbers, JSON syntax colors (light/dark aware), auto-indent, bracket matching/closing, code folding, undo/redo. Chosen because a hand-made editor would be fragile; it runs fully in the browser, so static hosting still works. `esbuild` (dev dependency) bundles it into a single `dist/src/app.js` (no CDN, no data sent).
 - **Input types**: standard JSON plus MongoDB Extended JSON (`$oid`, `$date`, `$numberLong`, `$numberInt`, `$numberDouble`, `$numberDecimal`, `$binary`, `$regularExpression`, `$timestamp`, `$minKey`, `$maxKey`, ...). Plain JSON numbers map to int32, int64 or double depending on value.
 - **BSON panel**: collapsible tree with size, type/name/value tables and EOO markers (as in the example above), plus a raw hex dump of the whole byte stream.
 
 ## Implementation notes (v0.1.0)
 
-- Build output is `dist/` (`pnpm build`); deployed to GitHub Pages by `.github/workflows/pages.yml`.
+- Build output is `dist/` (`pnpm build`, esbuild bundles `src/app.js` + CodeMirror); deployed to GitHub Pages by `.github/workflows/pages.yml`.
 - Decimal128 (`$numberDecimal`) is not supported yet. Known limitations are listed in `plan.md`.
 
 - Footer links: BSON overview (mongodb.com), BSON specification (bsonspec.org), and "Fork me on GitHub" (github.com/dfreniche/bsonexplainer-web).

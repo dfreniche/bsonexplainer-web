@@ -26,16 +26,22 @@ main { padding: 16px; display: grid; gap: 16px; }
 
 .input-section { display: grid; gap: 8px; }
 label { font: var(--via-typography-body2); }
-textarea {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 8px;
-  font-family: var(--via-font-family-monospace);
-  font-size: 13px;
-  color: inherit;
-  background: var(--via-color-background-secondary);
+.editor {
   border: 1px solid var(--via-color-border-primary);
   border-radius: 6px;
+  overflow: hidden;
+  background: var(--via-color-background-secondary);
+}
+/* JSON syntax colors in the editor; dark variants below keep contrast on both themes. */
+:root {
+  --code-key: #0b5394; --code-string: #1a7f37; --code-number: #b35900;
+  --code-keyword: #8250df; --code-punct: #57606a;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --code-key: #79c0ff; --code-string: #7ee787; --code-number: #ffa657;
+    --code-keyword: #d2a8ff; --code-punct: #9ca3af;
+  }
 }
 .error {
   margin: 0;

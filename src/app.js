@@ -1,7 +1,7 @@
 import { fromJsonText } from './extjson.js';
+import { createEditor } from './editor.js';
 import { encode, TYPE_NAMES, TYPE_CODES } from './bson.js';
 
-const input = document.getElementById('json-input');
 const jsonPanel = document.getElementById('json-tree');
 const bsonPanel = document.getElementById('bson-tree');
 const hexPanel = document.getElementById('hex-dump');
@@ -232,13 +232,13 @@ bsonPanel.addEventListener('toggle', onToggle, true);
 function render() {
   let parsed;
   try {
-    parsed = fromJsonText(input.value);
+    parsed = fromJsonText(editor.getValue());
     const { bytes, tree } = encode(parsed);
     errorBox.hidden = true;
     jsonPanel.innerHTML = renderJson(null, parsed);
     bsonPanel.innerHTML = renderBsonDoc(tree, bytes, tree.isArray ? 'array' : 'document');
     sizeLabel.textContent = `${bytes.length} bytes`;
-    jsonSizeLabel.textContent = `— total size: ${new TextEncoder().encode(input.value).length} bytes`;
+    jsonSizeLabel.textContent = `— total size: ${new TextEncoder().encode(editor.getValue()).length} bytes`;
     renderHex(bytes);
     indexTrees();
   } catch (err) {
@@ -248,7 +248,7 @@ function render() {
 }
 
 let timer;
-input.addEventListener('input', () => {
+const editor = createEditor(document.getElementById('json-input'), SAMPLE, () => {
   clearTimeout(timer);
   timer = setTimeout(render, 150);
 });
@@ -270,5 +270,4 @@ document.querySelector('.toolbar').addEventListener('click', (e) => {
   document.querySelectorAll('.tree details').forEach((d) => (d.open = action === 'expand'));
 });
 
-input.value = SAMPLE;
 render();
